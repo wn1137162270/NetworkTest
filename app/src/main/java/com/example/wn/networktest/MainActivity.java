@@ -13,6 +13,10 @@ import java.io.InputStreamReader;
 import java.net.HttpURLConnection;
 import java.net.URL;
 
+import okhttp3.OkHttpClient;
+import okhttp3.Request;
+import okhttp3.Response;
+
 public class MainActivity extends AppCompatActivity implements View.OnClickListener {
     private TextView responseText;
 
@@ -21,16 +25,21 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
-        Button sendRequest= (Button) findViewById(R.id.send_request_btn);
+        Button sendRequest1= (Button) findViewById(R.id.send_request1_btn);
+        Button sendRequest2= (Button) findViewById(R.id.send_request2_btn);
         responseText= (TextView) findViewById(R.id.response_text_tv);
-        sendRequest.setOnClickListener(this);
+        sendRequest1.setOnClickListener(this);
+        sendRequest2.setOnClickListener(this);
     }
 
     @Override
     public void onClick(View v) {
         switch (v.getId()){
-            case R.id.send_request_btn:
+            case R.id.send_request1_btn:
                 sendRequestWithHttpUrlConnection();
+                break;
+            case R.id.send_request2_btn:
+                sendRequestWithOkHttp();
                 break;
             default:break;
         }
@@ -72,6 +81,25 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                     if(connection!=null){
                         connection.disconnect();
                     }
+                }
+            }
+        }).start();
+    }
+
+    private void sendRequestWithOkHttp(){
+        new Thread(new Runnable() {
+            @Override
+            public void run() {
+                try {
+                    OkHttpClient okHttpClient=new OkHttpClient();
+                    Request request=new Request.Builder()
+                            .url("https://www.baidu.com")
+                            .build();
+                    Response response=okHttpClient.newCall(request).execute();
+                    String responseData=response.body().string();
+                    showResponse(responseData);
+                } catch (IOException e) {
+                    e.printStackTrace();
                 }
             }
         }).start();

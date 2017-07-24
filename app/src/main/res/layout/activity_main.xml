@@ -8,10 +8,16 @@
     tools:context="com.example.wn.networktest.MainActivity">
 
     <Button
-        android:id="@+id/send_request_btn"
+        android:id="@+id/send_request1_btn"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="Send Request"/>
+        android:text="Send Request1"/>
+
+    <Button
+        android:id="@+id/send_request2_btn"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="Send Request2"/>
 
     <ScrollView
         android:layout_width="match_parent"
